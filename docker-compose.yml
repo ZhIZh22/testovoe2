@@ -1,0 +1,9 @@
+services:
+  app:
+    image: ${IMAGE:-sqoch-tickets:latest}
+    build: .
+    restart: unless-stopped
+    environment:
+      EVENTS_SOURCE: ${EVENTS_SOURCE:-kudago}
+    ports:
+      - "${PORT:-8080}:8000"

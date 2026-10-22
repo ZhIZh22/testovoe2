@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* Сине-белая палитра: синий Авиасейлс, сдвинутый к индиго AlphaPro; нейтрали с синим оттенком */
+@theme {
+  --color-brand: #1a56ff;
+  --color-brand-600: #1245d6;
+  --color-brand-800: #0b2a8a;
+  --color-brand-50: #eef3ff;
+  --color-brand-100: #dce6ff;
+  --color-ink: #0a1430;
+  --color-muted: #5b6785;
+  --color-line: #dde3f0;
+  --color-mist: #f2f5fb;
+  --color-warn: #e8590c;
+  --color-warn-50: #fff2e8;
+  --color-danger: #d92d20;
+  --color-danger-50: #fef1f0;
+  --color-ok: #0f9d58;
+  --color-ok-50: #e9f8f0;
+
+  --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --radius-card: 20px;
+  --shadow-card: 0 1px 2px rgb(10 20 48 / 0.04), 0 8px 24px -12px rgb(10 20 48 / 0.12);
+  --shadow-float: 0 12px 40px -12px rgb(10 20 48 / 0.28);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-mist text-ink font-sans antialiased;
+    font-feature-settings: "tnum" 0;
+  }
+  h1, h2, h3 { text-wrap: balance; }
+  :focus-visible { outline: 3px solid color-mix(in srgb, var(--color-brand) 45%, transparent); outline-offset: 2px; }
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+}
+
+@layer components {
+  .gutter {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .container-x {
+    @apply mx-auto w-full max-w-[1200px];
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .card { @apply rounded-[var(--radius-card)] bg-white shadow-[var(--shadow-card)]; }
+
+  /* Кнопки-таблетки со стрелкой, как у Fernandes */
+  .btn, .btn-primary, .btn-dark, .btn-ghost, .btn-line {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-bold transition
+      disabled:cursor-not-allowed disabled:opacity-50 select-none;
+  }
+  .btn-primary { @apply bg-brand text-white hover:bg-brand-600 active:scale-[.98] h-14 px-7 text-[17px]; }
+  .btn-dark { @apply bg-brand-800 text-white hover:bg-ink h-14 px-7 text-[17px]; }
+  .btn-ghost { @apply h-11 px-5 text-[15px] text-brand bg-brand-50 hover:bg-brand-100; }
+  .btn-line { @apply h-11 px-5 text-[15px] border border-line bg-white hover:border-brand hover:text-brand; }
+
+  /* Поле в стиле Авиасейлс: подпись внутри, белая плашка */
+  .field {
+    @apply relative flex flex-col justify-center rounded-xl border border-line bg-white px-4 h-[60px]
+      transition focus-within:border-brand focus-within:ring-4 focus-within:ring-brand/15;
+  }
+  .field label { @apply text-[12px] font-semibold text-muted leading-none mb-1.5; }
+  .field input, .field select { @apply w-full bg-transparent text-[17px] font-semibold outline-none placeholder:text-muted/50 placeholder:font-medium; }
+  .field[data-invalid="true"] { @apply border-danger ring-4 ring-danger/10; }
+  .field-error { @apply mt-1.5 text-[13px] font-semibold text-danger; }
+
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 h-7 text-[13px] font-bold whitespace-nowrap; }
+  .eyebrow { @apply text-[12px] font-bold uppercase tracking-[0.12em] text-muted; }
+
+  /* Перфорация билета */
+  .perforation {
+    background-image: radial-gradient(circle, var(--color-line) 1.5px, transparent 1.6px);
+    background-size: 1px 10px;
+    background-repeat: repeat-y;
+    background-position: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes rise { from { opacity: 0.001; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 0.5s cubic-bezier(.2,.7,.2,1) both; }
